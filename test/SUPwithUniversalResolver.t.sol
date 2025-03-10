@@ -35,7 +35,7 @@ contract ProxyTest is Test {
 
         urV1 = new UniversalResolverV1(address(ens), urls);
         urV3 = new UniversalResolverV3(reverseUR);
-        
+
         proxy = new SingleTimeUpgradableProxy(ADMIN, address(urV1), "");
 
         urV1.transferOwnership(address(proxy));
@@ -58,7 +58,7 @@ contract ProxyTest is Test {
 
         string[] memory urls = new string[](1);
         urls[0] = "https://test1";
-        vm.prank(ADMIN);  // Use ADMIN instead of proxyV1.owner()
+        vm.prank(ADMIN); // Use ADMIN instead of proxyV1.owner()
         proxyV1.setGatewayURLs(urls);
 
         assertEq(proxyV1.batchGatewayURLs(0), urls[0]);
@@ -89,7 +89,7 @@ contract ProxyTest is Test {
         vm.startPrank(ADMIN);
         UniversalResolverV1 freshV1 = new UniversalResolverV1(address(ens), urls);
         UniversalResolverV3 freshV3 = new UniversalResolverV3(reverseUR);
-        
+
         SingleTimeUpgradableProxy proxyTemp = new SingleTimeUpgradableProxy(ADMIN, address(freshV1), "");
         freshV1.transferOwnership(address(proxyTemp));
         vm.stopPrank();
@@ -99,14 +99,14 @@ contract ProxyTest is Test {
         urls[0] = "https://test1";
         proxyV1.setGatewayURLs(urls);
         vm.stopPrank();
-        
+
         // Verify state is stored in implementation
         assertEq(proxyV1.batchGatewayURLs(0), "https://test1");
         assertEq(freshV1.batchGatewayURLs(0), "https://test1");
 
         vm.prank(ADMIN);
         proxyTemp.upgradeToAndCall(address(freshV3), "");
-        
+
         // Now verify storage independence - V1 should still have its state
         assertEq(freshV1.batchGatewayURLs(0), "https://test1");
     }
