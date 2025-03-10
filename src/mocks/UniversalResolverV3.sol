@@ -3,7 +3,6 @@ pragma solidity ^0.8.0;
 
 // equivalent to: https://github.com/ensdomains/ens-contracts/blob/feat/universalresolver-3/contracts/universalResolver/UniversalResolver.sol
 
-import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {CCIPReader} from "@unruggable-labs/ccip-reader/contracts/CCIPReader.sol";
 import {IUR, Lookup, Response, ResponseBits} from "@unruggable-labs/contracts/IUR.sol";
 import {IReverseUR} from "@unruggable-labs/contracts/IReverseUR.sol";
@@ -11,12 +10,11 @@ import {IResolveMulticall} from "@unruggable-labs/contracts/IResolveMulticall.so
 import {IUniversalResolver} from "@unruggable-labs/contracts/IUniversalResolver.sol";
 import {DNSCoder} from "@unruggable-labs/contracts/DNSCoder.sol";
 
-contract UniversalResolver is CCIPReader, OwnableUpgradeable, IUniversalResolver {
+contract UniversalResolver is CCIPReader, IUniversalResolver {
     IReverseUR public rr;
     string[] public __urls; // keeping urls slot reserved for the removal
 
-    function initialize(IReverseUR _rr) public reinitializer(2) {
-        __Ownable_init(msg.sender);
+    constructor(IReverseUR _rr) {
         rr = _rr;
     }
 
