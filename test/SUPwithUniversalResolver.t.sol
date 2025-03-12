@@ -4,8 +4,9 @@ pragma solidity ^0.8.20;
 import "forge-std/Test.sol";
 import "../src/SingleTimeUpgradableProxy.sol";
 
-import {UniversalResolver as UniversalResolverV1} from "../src/mocks/UniversalResolverV1.sol";
-import {UniversalResolver as UniversalResolverV3} from "../src/mocks/UniversalResolverV3.sol";
+import {UniversalResolver as UniversalResolverV1} from "@ens-contracts-main/contracts/utils/UniversalResolver.sol";
+import {UniversalResolver as UniversalResolverV3} from "@unruggable-labs/contracts/UniversalResolver.sol";
+
 import {UR} from "@unruggable-labs/contracts/UR.sol";
 import {ReverseUR} from "@unruggable-labs/contracts/ReverseUR.sol";
 
